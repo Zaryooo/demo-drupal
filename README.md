@@ -1,40 +1,27 @@
-# Drupal on Codespaces
+# Drupal 9 Codespaces example
 
-This project enables running Drupal projects on Github Codespaces, providing a customized container environment
-and adding some useful VSCode extensions and settings.
+Run Drupal 9 inside a Codespace for development purposes.
 
-## Quickstart
+The `.devcontainer` folder contains configuration to spin up a Codespace running Apache, MySQL, PHP 8.1 and Composer, based on [Microsoft's PHP devcontainer](https://github.com/devcontainers/images/tree/main/src/php). 
 
-* Open this project in Codespaces
-* Open the terminal
-* Create a Drupal project: `composer create-project drupal/recommended-project <myfolder>`
-* Enter the created folder: `cd <myfolder>`
-* Add Drush: `composer require drush/drush`
-* Start the Drupal installation: `drush si` - specify **sqlite** as Database driver, defaults otherwise!
-* Optional: Change the admin password: `drush upwd admin <password>`
-* Optional: Generate initial support for services code completion (see below): `drush generate phpstorm-metadata`
-* Run the development server: `drush serve`
+## How to use it
 
-## Basic Docker image
+1. Start a Codespace, and from the terminal run `composer install` to download Drupal 9 and it's PHP dependencies. 
+2. Click the `PORTS` tab, and hover over the local address line for port 80. Click the globe icon, which will open your Drupal website in a new browser tab
 
-This project is based on Debian's stable Bullseye image (Debian 11). I've added some cli tools, php extensions
-required for Drupal, and also nodejs (LTS), npm and the Drupal Drush launcher for convenience. Take a look at devcontainer/Dockerfile to find out more.
+    ![Browse a drupal site in codespaces](docs/browse-a-drupal-site-in-codespaces.png)
 
-## VSCode extensions and settings
+3. Follow the prompts to install your brand-new Drupal site
+4. Database credentials can be found in `.devcontainer/devcontainer.env`. If you haven't changed this, the database server hostname is `db`. Database name, username and password are all `drupal`.
 
-I've added some basic extensions and settings to support code completion and specific Drupal requirements.
-Take a look at .devcontainer/devcontainer.json for details.
+    ![Drupal setup](docs/drupal-install-in-codespaces.png)
 
-## Code completion for Drupal development
+### Customization
 
-While VSCode isn't as well suited for Drupal PHP development like e.g. PhpStorm, at least basic support for Drupal
-features can be achived using various extensions. For now the following should work:
+Replace `composer.json` with your own site's version -- one that includes whatever modules or dependencies are needed for your site.
 
-* Suggestions for Drupal Hooks: typing **hook_** in your .module files reveals a list of Drupal Hooks. Select one and
-you'll get the code snippet for your file, including docblock and function arguments.
-* Autocompletion for service identifiers: `\Drupal::service('')` provides a list of Drupal service ids, like e.g. 'entity_type.manager'. Should also work for `$container->get('')`. If it doesn't, please press F1 and run the 'Drupal Intellisense:Scan Workspace' command in VSCode.
-* Suggestions for Drupal service methods: supplied by PHP Intelephense extension, with the help of [PhpStorm Metadata](https://www.jetbrains.com/help/phpstorm/ide-advanced-metadata.html). To use this you need to generate the data using Drush: `drush generate phpstorm-metadata`. Repeat this whenever your services change,
-e.g. by installing contributed modules or writing custom services.
-* Autocompletion and Emmet support for Twig files.
+### Prior art
 
-## Licence: MIT
+This example is based on the work of @alchatti. 
+
+- [alchatti/drupal-devcontainer: VS Code development container environment for Drupal](https://github.com/alchatti/drupal-devcontainer). This setup includes some fancier stuff that we don't do here. It installs the Acquia tools, and it offers a couple of options for customizing the shell. 
